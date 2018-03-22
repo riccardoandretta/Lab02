@@ -8,6 +8,7 @@ package it.polito.tdp.alien;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.PatternSyntaxException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AlienController {
+	
+	AlienDictionary dictionary = new AlienDictionary();
 	
     @FXML
     private ResourceBundle resources;
@@ -43,13 +46,57 @@ public class AlienController {
     
     @FXML
     void doTranslate(ActionEvent event) {
+    	
+    	String riga = txtWord.getText().toLowerCase();
+    	
+    	if (riga == null || riga.length() == 0) {
+			txtResult.setText("Inserire una o due parole.");
+			txtWord.clear();
+			return;
+    	}
+    	
     	    	
+    	if (riga.contains(" ")) {
+    		if (riga.trim().compareTo("") == 0) {
+        		txtResult.setText("Inserire una o due parole.");
+        		txtWord.clear();
+        		return;
+        	}
+    		    		
+    		String [] array = riga.split(" ");
+    		
+    		if (!array[0].matches("[a-zA-Z]*") || !array[1].matches("[a-zA-Z]*")) {
+        		txtResult.setText("Insert only alfabethic expression");
+        		txtWord.clear();
+        		return;
+        	}
+    		
+    		
+    		dictionary.addWord(array[0], array[1]);
+    		txtResult.setText("New word added!");
+    		txtWord.clear();
+    	
+    	}else {
+    		if (!riga.matches("[a-zA-Z]*")) {
+        		txtResult.setText("Insert only alfabethic expression");
+        		txtWord.clear();
+        		return;
+        	}
+    		String translation = dictionary.translateWord(riga);
+    		if (translation == null) {
+    			txtResult.setText("Word not found.");}
+    		else {
+    			txtResult.setText(translation+"\n");}
+    		txtWord.clear();
+    	}
+    	
     }
     
     
     @FXML
     void doReset(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtWord.clear();
     }
     
 }
