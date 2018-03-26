@@ -17,7 +17,7 @@ public class Test {
 		if (!alienWord.matches("[a-zA-Z]*")) {
 			System.out.println("Insert only alfabethic expression");
     		
-    	} // non funziona, controlla su internet
+    	}
 		System.out.println(ris);
 		System.out.println(ris2);
 	}

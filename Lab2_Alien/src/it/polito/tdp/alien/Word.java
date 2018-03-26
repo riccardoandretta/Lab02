@@ -10,6 +10,16 @@ public class Word {
 		this.alienWord = alienWord;
 		this.translation = translation;
 	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((alienWord == null) ? 0 : alienWord.hashCode());
+		return result;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -24,11 +34,6 @@ public class Word {
 			if (other.alienWord != null)
 				return false;
 		} else if (!alienWord.equals(other.alienWord))
-			return false;
-		if (translation == null) {
-			if (other.translation != null)
-				return false;
-		} else if (!translation.equals(other.translation))
 			return false;
 		return true;
 	}

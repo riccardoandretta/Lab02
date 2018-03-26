@@ -45,14 +45,15 @@ public class AlienController {
     @FXML
     void doTranslate(ActionEvent event) {
     	
+    	txtResult.clear();
     	String riga = txtWord.getText().toLowerCase();
     	
+    	//Controllo sull'input
     	if (riga == null || riga.length() == 0) {
 			txtResult.setText("Inserire una o due parole.");
 			txtWord.clear();
 			return;
-    	}
-    	
+    	}    	
     	    	
     	if (riga.contains(" ")) {
     		if (riga.trim().compareTo("") == 0) {
@@ -63,7 +64,7 @@ public class AlienController {
     		    		
     		String [] array = riga.split(" ");
     		
-    		if (!array[0].matches("[a-zA-Z]*") || !array[1].matches("[a-zA-Z]*")) {
+    		if (!array[0].matches("[a-zA-Z]*") || !array[1].matches("[a-zA-Z]*")) { // * indica 0 o più volte; + indica 1 o più volte
         		txtResult.setText("Insert only alfabethic expression");
         		txtWord.clear();
         		return;
@@ -75,12 +76,21 @@ public class AlienController {
     		txtWord.clear();
     	
     	}else {
-    		if (!riga.matches("[a-zA-Z]*")) {
+    		
+    		String translation;
+    		//Aggiungo -->
+    		if(riga.matches("[a-zA-Z?]*")) {
+    			translation = dictionary.translateWordWildCard(riga);
+    		}
+    		else if(riga.matches("[a-zA-Z]*")) {
+    			translation = dictionary.translateWord(riga);
+    			}
+    		else { // aggiungo ? --> 
         		txtResult.setText("Insert only alfabethic expression");
         		txtWord.clear();
         		return;
         	}
-    		String translation = dictionary.translateWord(riga);
+    		
     		if (translation == null) {
     			txtResult.setText("Word not found.");}
     		else {
